@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход в марафон — Сергей Бахматов</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%A5%91%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <div class="auth-shell">
+    <div class="auth-card">
+      <h1>Вход в материалы марафона</h1>
+      <p>Введи пароль, который тебе дал Сергей — и продолжай с того дня, на котором остановился(ась).</p>
+
+      <form onsubmit="return handleLoginSubmit(event)">
+        <div class="auth-field">
+          <label for="password">Пароль</label>
+          <input type="password" id="password" name="password" placeholder="Пароль от марафона" autocomplete="current-password" required autofocus />
+        </div>
+        <p class="auth-error" id="auth-error"></p>
+        <button type="submit" class="btn btn-primary btn-block">Войти →</button>
+      </form>
+
+      <p style="margin-top: 24px; font-size: 0.85rem;">
+        Ещё нет доступа? <a href="index.html#programs" class="accent" style="font-weight:600;">Посмотреть программы</a>
+        или написать в <a href="https://t.me/delicious_thoughts" target="_blank" rel="noopener" class="accent" style="font-weight:600;">Telegram</a>.
+      </p>
+    </div>
+  </div>
+
+  <script src="assets/js/auth.js"></script>
+</body>
+</html>

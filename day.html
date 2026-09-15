@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>День марафона — Сергей Бахматов</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%A5%91%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .media-block { margin: 16px 0; }
+    .media-block img, .media-block video { border-radius: var(--radius-md); width: 100%; }
+    .media-block video.is-note { max-width: 260px; border-radius: 50%; aspect-ratio: 1/1; object-fit: cover; }
+    .media-block audio { width: 100%; }
+    .media-caption { font-size: 0.8rem; color: var(--color-text-soft); margin-top: 4px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--color-accent-soft); color: var(--color-accent-dark); border-radius: 999px; padding: 6px 14px; font-size: 0.82rem; font-weight: 600; }
+    .message-block { padding: 20px 0; border-top: 1px solid var(--color-border); }
+    .message-block:first-child { border-top: none; padding-top: 0; }
+    .day-not-found { text-align: center; padding: 80px 0; }
+  </style>
+</head>
+<body>
+  <script src="assets/js/auth.js"></script>
+  <script>requireAuth();</script>
+
+  <div class="container" style="padding-top: 24px;">
+    <div class="top-bar">
+      <a href="index.html" class="logo">Сергей Бахматов<span>нутрициолог · фитнес-тренер</span></a>
+      <a href="#" onclick="logout(); return false;" class="logout-link">Выйти</a>
+    </div>
+  </div>
+
+  <section style="padding-top: 8px;">
+    <div class="container">
+      <p><a href="marathon.html" class="btn btn-outline" style="padding:8px 18px; font-size:0.85rem;">← Ко всем дням</a></p>
+
+      <div id="day-root"></div>
+
+      <div class="day-detail-nav" id="day-nav"></div>
+    </div>
+  </section>
+
+  <script src="assets/js/progress.js"></script>
+  <script src="assets/data/marathon-days.js"></script>
+  <script>
+    (function () {
+      const days = window.MARATHON_DAYS || [];
+      const params = new URLSearchParams(window.location.search);
+      const dayNum = parseInt(params.get("d"), 10);
+      const root = document.getElementById("day-root");
+      const nav = document.getElementById("day-nav");
+
+      const idx = days.findIndex(function (d) { return d.day === dayNum; });
+
+      if (idx === -1) {
+        root.innerHTML = "";
+        const wrap = document.createElement("div");
+        wrap.className = "day-not-found";
+        const h = document.createElement("h2");
+        h.textContent = "День не найден";
+        const p = document.createElement("p");
+        p.textContent = "Проверь ссылку или вернись к списку дней марафона.";
+        wrap.appendChild(h);
+        wrap.appendChild(p);
+        root.appendChild(wrap);
+        return;
+      }
+
+      const day = days[idx];
+      document.title = "День " + day.day + ": " + day.title + " — Сергей Бахматов";
+      markDayVisited(day.day);
+
+      const card = document.createElement("div");
+      card.className = "day-detail";
+
+      const head = document.createElement("div");
+      head.className = "day-detail-head";
+      const headLeft = document.createElement("div");
+      const eyebrow = document.createElement("span");
+      eyebrow.className = "eyebrow";
+      eyebrow.textContent = "День " + day.day + " из 30";
+      const h1 = document.createElement("h1");
+      h1.style.fontSize = "1.6rem";
+      h1.textContent = day.title;
+      headLeft.appendChild(eyebrow);
+      headLeft.appendChild(h1);
+      head.appendChild(headLeft);
+      card.appendChild(head);
+
+      const body = document.createElement("div");
+      body.className = "day-body";
+
+      day.messages.forEach(function (msg) {
+        const block = document.createElement("div");
+        block.className = "message-block";
+
+        msg.lines.forEach(function (line) {
+          if (line.trim() === "") return;
+          const p = document.createElement("p");
+          p.textContent = line;
+          block.appendChild(p);
+        });
+
+        msg.media.forEach(function (med) {
+          const mb = document.createElement("div");
+          mb.className = "media-block";
+
+          if (med.kind === "photo") {
+            const img = document.createElement("img");
+            img.src = med.url;
+            img.loading = "lazy";
+            img.alt = day.title;
+            mb.appendChild(img);
+          } else if (med.kind === "video_note") {
+            const v = document.createElement("video");
+            v.src = med.url;
+            v.controls = true;
+            v.playsInline = true;
+            v.className = "is-note";
+            mb.appendChild(v);
+          } else if (med.kind === "video") {
+            const v = document.createElement("video");
+            v.src = med.url;
+            v.controls = true;
+            v.playsInline = true;
+            mb.appendChild(v);
+          } else if (med.kind === "voice") {
+            const a = document.createElement("audio");
+            a.src = med.url;
+            a.controls = true;
+            mb.appendChild(a);
+          } else if (med.kind === "document") {
+            const link = document.createElement("a");
+            link.href = med.url;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.className = "btn btn-outline";
+            link.textContent = "📎 Скачать: " + (med.filename || "документ");
+            mb.appendChild(link);
+          }
+          block.appendChild(mb);
+        });
+
+        if (msg.chips && msg.chips.length) {
+          const chipsWrap = document.createElement("div");
+          chipsWrap.className = "chips";
+          msg.chips.forEach(function (chip) {
+            const c = document.createElement("span");
+            c.className = "chip";
+            c.textContent = "🎯 " + chip;
+            chipsWrap.appendChild(c);
+          });
+          block.appendChild(chipsWrap);
+        }
+
+        body.appendChild(block);
+      });
+
+      card.appendChild(body);
+      root.appendChild(card);
+
+      // навигация между днями
+      const prev = idx > 0 ? days[idx - 1] : null;
+      const next = idx < days.length - 1 ? days[idx + 1] : null;
+
+      if (prev) {
+        const a = document.createElement("a");
+        a.href = "day.html?d=" + prev.day;
+        a.className = "btn btn-outline";
+        a.textContent = "← День " + prev.day;
+        nav.appendChild(a);
+      } else {
+        nav.appendChild(document.createElement("span"));
+      }
+
+      if (next) {
+        const a = document.createElement("a");
+        a.href = "day.html?d=" + next.day;
+        a.className = "btn btn-primary";
+        a.textContent = "День " + next.day + " →";
+        nav.appendChild(a);
+      } else {
+        const a = document.createElement("a");
+        a.href = "marathon.html";
+        a.className = "btn btn-primary";
+        a.textContent = "Марафон пройден 🎉";
+        nav.appendChild(a);
+      }
+    })();
+  </script>
+</body>
+</html>

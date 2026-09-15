@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30-дневный марафон — Сергей Бахматов</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%A5%91%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <script src="assets/js/auth.js"></script>
+  <script>requireAuth();</script>
+
+  <div class="container" style="padding-top: 24px;">
+    <div class="top-bar">
+      <a href="index.html" class="logo">Сергей Бахматов<span>нутрициолог · фитнес-тренер</span></a>
+      <a href="#" onclick="logout(); return false;" class="logout-link">Выйти</a>
+    </div>
+  </div>
+
+  <section class="marathon-hero">
+    <div class="container">
+      <span class="eyebrow">Закрытый раздел</span>
+      <h1>30-дневный марафон: энергия и баланс</h1>
+      <p class="hero-lede">Без революций, но с реальными изменениями. Открывай дни по порядку — или возвращайся к любому, если что-то захочется перечитать.</p>
+      <div class="marathon-progress"><div id="progress-fill" style="width:0%"></div></div>
+      <p class="marathon-progress-label" id="progress-label">Открыто 0 из 0 дней</p>
+    </div>
+  </section>
+
+  <section style="padding-top: 0;">
+    <div class="container">
+      <div class="days-grid" id="days-grid"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© 2026 Сергей Бахматов. Материалы марафона — только для тех, кто проходит сопровождение.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/progress.js"></script>
+  <script src="assets/data/marathon-days.js"></script>
+  <script>
+    (function () {
+      const days = window.MARATHON_DAYS || [];
+      const visited = new Set(getVisitedDays());
+      const grid = document.getElementById("days-grid");
+
+      days.forEach(function (d) {
+        const card = document.createElement("a");
+        card.href = "day.html?d=" + d.day;
+        card.className = "day-card" + (visited.has(d.day) ? " is-done" : "");
+
+        const num = document.createElement("div");
+        num.className = "day-num";
+        num.textContent = d.day;
+
+        const title = document.createElement("div");
+        title.className = "day-title";
+        title.textContent = d.title;
+
+        card.appendChild(num);
+        card.appendChild(title);
+        grid.appendChild(card);
+      });
+
+      const total = days.length;
+      const done = days.filter(function (d) { return visited.has(d.day); }).length;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      document.getElementById("progress-fill").style.width = pct + "%";
+      document.getElementById("progress-label").textContent = "Открыто " + done + " из " + total + " дней";
+    })();
+  </script>
+</body>
+</html>
