@@ -227,9 +227,10 @@
     "type": "voice",
     "url": "https://storage2.bothelp.io/dovx/f1/f1b5/f1b543fe6b0e537035509d4fd911bb33/1_den__audio.ogg",
     "name": "1_den__audio.ogg",
-    "size": 85787,
+    "size": 276185,
     "step": "Сообщение 61",
-    "local": "media/bonus/14_voice_1_den__audio.ogg"
+    "local": "media/bonus/14_voice_1_den__audio.m4a",
+    "original": "_originals/media__bonus__14_voice_1_den__audio.ogg"
   },
   {
     "type": "text",
@@ -293,9 +294,10 @@
     "type": "voice",
     "url": "https://storage2.bothelp.io/dovx/59/59cb/59cbd4e23f5913b41f265d0338b48a1b/2_den__audio_onli.ogg",
     "name": "2_den__audio_onli.ogg",
-    "size": 192814,
+    "size": 612785,
     "step": "Сообщение 71",
-    "local": "media/bonus/16_voice_2_den__audio_onli.ogg"
+    "local": "media/bonus/16_voice_2_den__audio_onli.m4a",
+    "original": "_originals/media__bonus__16_voice_2_den__audio_onli.ogg"
   },
   {
     "type": "text",
@@ -376,9 +378,10 @@
     "type": "voice",
     "url": "https://storage2.bothelp.io/dovx/bf/bfdb/bfdb775749fab632d778d4d3f5c2006a/myishtsyi_ne_rastut.ogg",
     "name": "myishtsyi_ne_rastut.ogg",
-    "size": 172188,
+    "size": 537917,
     "step": "Сообщение 79",
-    "local": "media/bonus/21_voice_myishtsyi_ne_rastut.ogg"
+    "local": "media/bonus/21_voice_myishtsyi_ne_rastut.m4a",
+    "original": "_originals/media__bonus__21_voice_myishtsyi_ne_rastut.ogg"
   },
   {
     "type": "text",
