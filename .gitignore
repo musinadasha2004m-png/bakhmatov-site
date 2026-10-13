@@ -1,3 +1,6 @@
-.DS_Store
-Thumbs.db
-*.log
+_originals/
+*.old.json
+bot.zip.zip
+.claude/
+/[0-9]*.png
+/data/media_links.csv
