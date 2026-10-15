@@ -426,6 +426,8 @@ a.day-card:hover { transform: translateY(-2px); border-color: var(--accent-blue)
   transition: transform 0.2s;
 }
 .bonus-banner:hover { transform: translateY(-2px); }
+.bonus-banner-green { background: var(--surface-green); margin-top: 0; }
+.bonus-banner-green > .icon { color: var(--green-text); }
 .bonus-banner div { flex: 1; min-width: 0; }
 .bonus-banner h2 { font-size: 1.2rem; margin-bottom: 4px; }
 .bonus-banner p { font-size: 0.9rem; }

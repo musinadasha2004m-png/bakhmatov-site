@@ -82,6 +82,13 @@
         '<div><h2>Дополнительные <span class="hl">материалы</span></h2>' +
         "<p>Отёки, кофе, вечерний жор, метаболизм, тренировки с видео упражнений — можно заглянуть в любой день.</p></div>" +
         M.icon("arrowRight") +
+      "</a>" +
+
+      '<a class="bonus-banner bonus-banner-green" href="files/marathon-30-days.docx" download="Тексты марафона 30 дней.docx">' +
+        '<span class="badge badge-green badge-lg">' + M.icon("download") + "</span>" +
+        '<div><h2>Все тексты <span class="hl">одним файлом</span></h2>' +
+        "<p>Документ Word с уроками всех 30 дней — чтобы перечитать или распечатать.</p></div>" +
+        M.icon("download") +
       "</a>";
   }
 
