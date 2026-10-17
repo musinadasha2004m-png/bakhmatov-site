@@ -238,7 +238,12 @@
 
   function renderMediaItem(item) {
     var s = src(item.local || item.url), fb = fallbackAttr(item);
-    if (!s) return "";
+    if (!s) {
+      // материал из нового расписания, файла пока нет — место видно только в режиме предпросмотра
+      if (!preview) return "";
+      return '<div class="media-missing">' + icon(item.type === "voice" ? "mic" : item.type === "photo" ? "gift" : item.type === "document" ? "download" : "play") +
+        "<span>Скоро здесь: " + esc(item.note || "материал") + "</span></div>";
+    }
     switch (item.type) {
       case "video_note":
         return '<video class="circle" controls playsinline preload="metadata" src="' + s + '"' + fb + "></video>";
@@ -319,7 +324,9 @@
       // подряд идущие фото и кружки ставим в один ряд, порядок не меняется
       var j = i, group = "";
       while (j < items.length && items[j].type === it.type) { group += renderMediaItem(items[j]); j++; }
-      if (it.type === "photo") html += '<div class="gallery' + (j - i === 1 ? " gallery-one" : "") + '">' + group + "</div>";
+      if (!group) { i = j; continue; }
+      if (it.type === "photo" && group.indexOf("media-missing") !== -1) html += group;
+      else if (it.type === "photo") html += '<div class="gallery' + (j - i === 1 ? " gallery-one" : "") + '">' + group + "</div>";
       else if (it.type === "video_note") html += '<div class="circles">' + group + "</div>";
       else html += group;
       i = j;
